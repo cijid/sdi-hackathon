@@ -32,6 +32,8 @@ That's a bit much IMO to include in this project with the time available. My goa
 - RESPONSE ACTION
 - COMMENTS
 
-3. Report is saved to database
+2. Report is saved to database
 
-4. Map always shows open reports
+3. Map always shows open reports
+
+4. List of reports published below map
