@@ -37,3 +37,38 @@ That's a bit much IMO to include in this project with the time available. My goa
 3. Map always shows open reports
 
 4. List of reports published below map
+
+# Issues I Ran Into While Developing This Project
+
+## Backend
+
+### Hardcoded Increments in Seed File
+
+I originally had my increments added to the seed file like so:
+
+```
+await knex("reports").insert([
+    {
+      id: 1,
+      first_name: "Clifford",
+      last_name: "Drew",
+      ...
+    },
+])
+```
+
+After I removed the id from each of my seed entries the submissions started to work.
+
+## Frontend
+
+### Error Throwing
+
+My lack of frontend post handling was causing an error when trying to submit a new report. The errors were being treated as an object so `allReports` ended up containing things that could not be handled when interacting with the API.
+
+I overcame this by validating the response status:
+
+```
+if (!response.ok) {
+  throw new Error(data.error || "Could not create report");
+}
+```

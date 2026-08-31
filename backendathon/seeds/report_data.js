@@ -7,7 +7,6 @@ exports.seed = async function (knex) {
   await knex("reports").del();
   await knex("reports").insert([
     {
-      id: 1,
       first_name: "Clifford",
       last_name: "Drew",
       user_grade_and_rank: "E-6/TSgt",
@@ -18,7 +17,6 @@ exports.seed = async function (knex) {
       comments: "Radios are scuffed",
     },
     {
-      id: 2,
       first_name: "John",
       last_name: "Snuffy",
       user_grade_and_rank: "E-5/Sgt",
@@ -29,7 +27,6 @@ exports.seed = async function (knex) {
       comments: "Radio check - 5 by 5",
     },
     {
-      id: 3,
       first_name: "Jim",
       last_name: "Jarnathan",
       user_grade_and_rank: "O-3/Cpt",

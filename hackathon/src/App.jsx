@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 
 import "./App.css";
 
-function App() {
+export function App() {
   //User Profile Info
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
@@ -79,7 +79,7 @@ function App() {
       setSyscapStatus("");
       setResponseAction("");
       setUserComments("");
-      setSubmittedReport(data);
+      // setSubmittedReport(data);
       setLatitude("");
       setLongitude("");
     } catch (error) {
@@ -192,6 +192,7 @@ function App() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
+            {/* Retrieve all the reports and place dots */}
             {allReports.map((report) => (
               <CircleMarker
                 key={report.id}
@@ -219,6 +220,7 @@ function App() {
             ))}
           </MapContainer>
         </div>
+        {/* Create a table with all the report info */}
         <table className="reports-table">
           <thead className="reports-table-head">
             <tr>
