@@ -100,8 +100,8 @@ table td {
 }
 .deck {
   position: absolute;
-  width: 600px;
-  height: 500px;
+  width: 700px;
+  height: 600px;
   will-change: transform;
   display: flex;
   align-items: center;
@@ -114,10 +114,8 @@ table td {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
-  width: 45vh;
-  max-width: 144px;
-  height: 85vh;
-  max-height: 242px;
+  width: 288px;
+  height: 484px;
   will-change: transform;
   border-radius: 10px;
   box-shadow:

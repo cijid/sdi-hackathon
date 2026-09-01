@@ -12,6 +12,12 @@ import yayCard from "./assets/png/yay-card.png";
 
 const cards = [goodJobCard, stopCard, ughCard, whatCard, yayCard];
 
+//Cliff - Adding shuffle logic
+
+function shuffleCards(cards) {
+  return [...cards].sort(() => Math.random() - 0.5);
+}
+
 const to = (i) => ({
   x: 0,
   y: i * -4,
@@ -32,16 +38,17 @@ const trans = (r, s) =>
   `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`;
 
 function Deck() {
+  const [shuffledCards] = useState(() => shuffleCards(cards));
   const [gone] = useState(() => new Set());
 
-  const [props, api] = useSprings(cards.length, (i) => ({
+  const [props, api] = useSprings(shuffledCards.length, (i) => ({
     ...to(i),
     from: from(i),
   }));
 
   const bind = useDrag(
     ({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
-      const trigger = velocity > 0.2;
+      const trigger = Math.abs(mx) > 100 || vx > 0.2;
       const dir = xDir < 0 ? -1 : 1;
 
       if (!down && trigger) {
@@ -87,7 +94,7 @@ function Deck() {
             {...bind(i)}
             style={{
               transform: interpolate([rot, scale], trans),
-              backgroundImage: `url(${cards[i]})`,
+              backgroundImage: `url(${shuffledCards[i]})`,
             }}
           />
         </animated.div>
