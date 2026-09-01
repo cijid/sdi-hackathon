@@ -32,6 +32,44 @@ app.post("/reports", async (req, res) => {
   }
 });
 
+app.delete('/reports/:id', async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    await knex.transaction(async (trx) => {
+      const entry = await trx('reports')
+        .where({ id })
+        .first();
+
+    if (!entry) {
+      return res.status(404).json({ error: 'Entry not found'});
+    }
+
+
+
+    await trx('reports')
+    .where({id})
+    .del();
+
+    await trx('resolved_reports').insert({
+    ...entry,
+    archived_at: knex.fn.now()
+});
+
+    res.status(200).json({ message: 'Entry archived and deleted' });
+
+    });
+
+  } catch (error) {
+    console.error('Failed to move entry', error);
+    res.status(500).json({ error: 'Error during archive'});
+  }
+
+
+
+});
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-
 import "./App.css";
 
 export function App() {
@@ -41,6 +40,8 @@ export function App() {
       });
   }, []);
 
+
+  //Submit a new report
   async function handleReportSubmission(event) {
     event.preventDefault();
 
@@ -79,12 +80,39 @@ export function App() {
       setSyscapStatus("");
       setResponseAction("");
       setUserComments("");
-      // setSubmittedReport(data);
       setLatitude("");
       setLongitude("");
     } catch (error) {
       console.error("Error creating report:", error);
     }
+  }
+
+
+  // Delete Resolved Report
+  async function handleReportRemoval(event, reportID){
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:8081/reports/${reportID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+
+      throw new Error(data.error || "Could not remove report");
+    }
+
+    window.location.reload();
+     } catch (error) {
+    console.error("Error removing entry:", error.message);
+    alert(error.message);
+  }
+
   }
 
   return (
@@ -95,6 +123,15 @@ export function App() {
         </div>
         <div className="form-submission">
           <form onSubmit={handleReportSubmission} className="reportSubmission">
+            <label className="user-rank">
+              Your Grade and Rank:
+              <input
+                type="text"
+                value={userRank}
+                onChange={(event) => setUserRank(event.target.value)}
+                className="form-select"
+              />
+            </label>
             <label className="user-first-name">
               Your First Name:
               <input
@@ -113,15 +150,7 @@ export function App() {
                 className="form-select"
               />
             </label>
-            <label className="user-rank">
-              Your Grade and Rank:
-              <input
-                type="text"
-                value={userRank}
-                onChange={(event) => setUserRank(event.target.value)}
-                className="form-select"
-              />
-            </label>
+
             <label>
               Latitude:
               <input
@@ -247,6 +276,8 @@ export function App() {
                 <td>{reporttable.syscap_status_code}</td>
                 <td>{reporttable.response_actions}</td>
                 <td>{reporttable.comments}</td>
+                <td><form onSubmit={(event) => handleReportRemoval(event, reporttable.id)} className="reportSubmission">
+                  <button type="submit">Remove</button></form></td>
               </tr>
             ))}
           </tbody>
