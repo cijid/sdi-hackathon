@@ -17,7 +17,7 @@ export function ReportsPage() {
   const [allReports, setAllReports] = useState([]);
 
   //Mapping
-  const defaultPosition = [51.505, -0.09];
+  const defaultPosition = [38, -104];
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
